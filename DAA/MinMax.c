@@ -1,65 +1,43 @@
 #include <stdio.h>
-#include <stdlib.h>
-int min,max;
-
-void main()
+void maxmin(int a[], int l, int h, int *max, int *min)
 {
-    int n, min, max;
-    printf("enter no length of array");
-    scanf("%d", &n);
-    int A[n];
-    for (int i = 0; i < n; i++)
+    int max1 = -1, min1 = 999999;
+    if (h == l)
     {
-        printf("\nprint element %d", i + 1);
-        scanf("%d", &A[i]);
+        *min = *max = a[h];
     }
-    int start = 0;
-    int end = len(A);
-    MinMax(A, start, end);
-    printf("\nMax = %d", max);
-    printf("\n Min = %d", min);
-}
-
-int MinMax(int A[], int i, int j)
-{
-    if (i == j)
+    else if (h == l + 1)
     {
-        return (A[i], A[j]);
-    }
-    else if (j - i == 1)
-    {
-        if (A[i] > A[j])
+        if (a[l] > a[h])
         {
-            return (A[i], A[j]);
+            *max = a[l];
+            *min = a[h];
         }
         else
         {
-            return (A[j], A[i]);
+            *max = a[h];
+            *min = a[l];
         }
     }
     else
     {
-        int min, max;
-        int Lmin, Lmax, Rmin, Rmax;
-        int mid = (i + j) / 2;
-        Lmin, Lmax = (A, i, mid);
-        Rmin, Rmax = (A, mid + 1, j);
-        if (Lmin < Rmin)
+        int mid = (l + h) / 2;
+        maxmin(a, l, mid, max, min);
+        maxmin(a, mid + 1, h, &max1, &min1);
+        if (min1 < *min)
         {
-            min = Lmin;
+            *min = min1;
         }
-        else
+        if (max1 > *max)
         {
-            min = Rmin;
+            *max = max1;
         }
-        if (Rmax > Lmax)
-        {
-            max = Rmax;
-        }
-        else
-        {
-            max = Lmax;
-        }
-        return (min, max);
     }
+}
+void main()
+{
+    int a[5] = {5, 45, 32, 1, 90};
+    int min = 9999, max = -1;
+    maxmin(a, 0, 4, &max, &min);
+    printf("Max:%d Min:%d ", max, min);
 }
