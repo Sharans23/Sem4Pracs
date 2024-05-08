@@ -48,6 +48,7 @@ int main(){
                 int flag=0;
                 for (j=0;j<m;j++){
                     if(need[n][m]>avail[j]){
+                        // or if(need[i][j]>avail[j])
                         flag=1;
                         break;
                     }

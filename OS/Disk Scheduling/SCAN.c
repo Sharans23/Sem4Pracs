@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 void main(){
-    int rq[20], r[20], dist=0, min,n,initial,i,j,size,count=0,index,temp;
+    int rq[20], r[20], dist=0,n,initial,i,j,size,count=0,index,temp;
     
 // rq[20]: Array to store disk requests.
 // r[20]: Array to store the order of processed requests.
@@ -64,7 +64,7 @@ void main(){
     }
     printf("Total head moment is %d",dist);
     printf("\nRequests resolved in following order: ");
-    for(i=0;i<n;i++){
+    for(i=0;i<=n;i++){
         printf("%d\t",r[i]);
     }
 }
