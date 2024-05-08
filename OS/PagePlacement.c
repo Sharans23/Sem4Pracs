@@ -23,7 +23,7 @@ void FirstFit(int blockSize[],int blocks,int processSize[],int processes){
             }
         }
     }
-    printf("\nProcess No.\tProcess Size\tBlockk= No.\n");
+    printf("\nProcess No.\tProcess Size\tBlockk No.\n");
     for(int i=0;i<processes;i++){
         printf("%d \t\t\t %d \t\t\t",i+1,processSize[i]);
         if(allocate[i]!=-1){
@@ -58,6 +58,55 @@ void bestFit(int blockSize[],int m,int processSize[],int n){
         for(int j=0;j<m;j++){
             if(!blockAllocated[j] && blockSize[j]>=processSize[i]){
                 if(bestIndex==-1 || blockSizeCopy[bestIndex]>blockSizeCopy[j]){
+                    bestIndex=j;
+                }
+            }
+        }
+        if(bestIndex!=-1){
+            allocation[i]=bestIndex;
+            blockSizeCopy[bestIndex]-=processSize[i];
+            allocatedMemory+=processSize[i];
+            blockAllocated[bestIndex] = 1;
+        }
+    }
+    printf("\nProcess No. \tProcess Size \tBlock No.\n");
+    for(int i=0;i<n;i++){
+        printf("%d \t\t\t %d\t\t\t",i+1,processSize[i]);
+        if(allocation[i]!=-1){
+            printf("%d\n",allocation[i]+1);
+        }
+        else{
+            printf("Not allocated\n");
+        }
+    }
+    printf("Percentage utilization%.3f%%\n",((float)allocatedMemory/totalMemory)*100);
+}
+
+void worstFit(int blockSize[],int m,int processSize[],int n){
+    int blockSizeCopy[m];
+    int allocation[n];
+    int totalMemory=0;
+    int allocatedMemory=0;
+    int blockAllocated[m];
+
+    for(int i=0;i<m;i++){
+        blockSizeCopy[i]=blockSize[i];
+        blockAllocated[i]=0;
+    }
+    for(int i=0;i<n;i++){
+        allocation[i]=-1;
+    }
+    for(int i=0;i<m;i++){
+        totalMemory+=blockSize[i];
+    }
+    for(int i=0;i<n;i++){
+        int bestIndex=-1;
+        for(int j=0;j<m;j++){
+            if(!blockAllocated[j] && blockSize[j]>=processSize[i]){
+                // only this difference
+
+
+                if(bestIndex==-1 || blockSizeCopy[bestIndex]<blockSizeCopy[j]){
                     bestIndex=j;
                 }
             }

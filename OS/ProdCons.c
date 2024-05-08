@@ -46,8 +46,7 @@ int main()
         switch (n) {
         case 1:
 
-            if ((mutex == 1)
-                && (empty != 0)) {
+            if ((mutex == 1) && (empty != 0)) {
                 producer();
             }
             else {

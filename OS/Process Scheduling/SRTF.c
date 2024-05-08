@@ -1,59 +1,67 @@
 #include <stdio.h>
 #define MAX 9999
-struct proc
-{
-    int no, at, bt, rt, ct, tat, wt;
-};
-struct proc read(int i)
-{
-    struct proc p;
-    printf("\nProcess No: %d\n", i);
-    p.no = i;
-    printf("Enter Arrival Time: ");
-    scanf("%d", &p.at);
-    printf("Enter Burst Time: ");
-    scanf("%d", &p.bt);
-    p.rt = p.bt;
-    return p;
-}
+#define N 10 // Maximum number of processes
+
 int main()
 {
-    struct proc p[10], temp;
+    int no[N], at[N], bt[N], rt[N], ct[N], tat[N], wt[N];
     float avgtat = 0, avgwt = 0;
-    int n, s, remain = 0, time;
+    int n, s, remain = 0, time, temp;
+
     printf("<--SRTF Scheduling Algorithm (Preemptive)-->\n");
     printf("Enter Number of Processes: ");
     scanf("%d", &n);
+
     for (int i = 0; i < n; i++)
-        p[i] = read(i + 1);
+    {
+        printf("\nProcess No: %d\n", i + 1);
+        no[i] = i + 1;
+        printf("Enter Arrival Time: ");
+        scanf("%d", &at[i]);
+        printf("Enter Burst Time: ");
+        scanf("%d", &bt[i]);
+        rt[i] = bt[i];
+    }
+
     for (int i = 0; i < n - 1; i++)
         for (int j = 0; j < n - i - 1; j++)
-            if (p[j].at > p[j + 1].at)
+            if (at[j] > at[j + 1])
             {
-                temp = p[j];
-                p[j] = p[j + 1];
-                p[j + 1] = temp;
+                temp = at[j];
+                at[j] = at[j + 1];
+                at[j + 1] = temp;
+
+                temp = bt[j];
+                bt[j] = bt[j + 1];
+                bt[j + 1] = temp;
+
+                temp = no[j];
+                no[j] = no[j + 1];
+                no[j + 1] = temp;
             }
+
     printf("\nProcess\t\tAT\tBT\tCT\tTAT\tWT\n");
-    p[9].rt = MAX;
+    rt[n] = MAX; // Sentinel value
+
     for (time = 0; remain != n; time++)
     {
-        s = 9;
+        s = n;
         for (int i = 0; i < n; i++)
-            if (p[i].at <= time && p[i].rt < p[s].rt && p[i].rt > 0)
+            if (at[i] <= time && rt[i] < rt[s] && rt[i] > 0)
                 s = i;
-        p[s].rt--;
-        if (p[s].rt == 0)
+        rt[s]--;
+        if (rt[s] == 0)
         {
             remain++;
-            p[s].ct = time + 1;
-            p[s].tat = p[s].ct - p[s].at;
-            avgtat += p[s].tat;
-            p[s].wt = p[s].tat - p[s].bt;
-            avgwt += p[s].wt;
-            printf("P%d\t\t%d\t%d\t%d\t%d\t%d\n", p[s].no, p[s].at, p[s].bt, p[s].ct, p[s].tat, p[s].wt);
+            ct[s] = time + 1;
+            tat[s] = ct[s] - at[s];
+            avgtat += tat[s];
+            wt[s] = tat[s] - bt[s];
+            avgwt += wt[s];
+            printf("P%d\t\t%d\t%d\t%d\t%d\t%d\n", no[s], at[s], bt[s], ct[s], tat[s], wt[s]);
         }
     }
+
     avgtat /= n, avgwt /= n;
     printf("\nAverage TurnAroundTime=%f\nAverage WaitingTime=%f", avgtat, avgwt);
 }

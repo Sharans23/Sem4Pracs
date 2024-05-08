@@ -1,72 +1,67 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-
-int checkHit(int incomingPage,int queue[],int occupied){
-    for(int i=0;i<occupied;i++){
-        if(incomingPage==queue[i]){
-            return 1;
-        }
-    }
-    return 0;
-}
-
-void printFrame(int queue[],int occupied){
-    for(int i=0;i<occupied;i++){
-        printf("%d\t\t\t",queue[i]);
-    }
-}
+#define MAX 9999
+#define N 10
 
 int main(){
-    int incommingStream[30],n,frames=3,queue[30],distance[30],occupied=0,pagefault=0,i;
+    
+    int no[N], at[N], bt[N], rt[N], ct[N], tat[N], wt[N];
+    float avgtat = 0, avgwt = 0;
+    int n,s,remain=0,time,temp;
 
-    printf("enter number of terms in incoming stream: ");
+    printf("<--SRTF Scheduling Algorithm (Preemptive)-->\n");
+    printf("Enter Number of Processes: ");
     scanf("%d", &n);
-    printf("enter terms in incoming stream: ");
-    for (i = 0; i < n; i++)
+
+    for (int i = 0; i < n; i++)
     {
-        scanf("%d", &incommingStream[i]);
+        printf("\nProcess No: %d\n", i + 1);
+        no[i] = i + 1;
+        printf("Enter Arrival Time: ");
+        scanf("%d", &at[i]);
+        printf("Enter Burst Time: ");
+        scanf("%d", &bt[i]);
+        rt[i] = bt[i];
     }
-    printf("\nPage\t Frame1 \t Frame2 \t Frame3\n");
+    for (int i = 0; i < n - 1; i++)
+        for (int j = 0; j < n - i - 1; j++)
+            if (at[j] > at[j + 1])
+            {
+                temp = at[j];
+                at[j] = at[j + 1];
+                at[j + 1] = temp;
 
-    for(i=0;i<n;i++){
-        printf("%d\t\t",incommingStream[i]);
+                temp = bt[j];
+                bt[j] = bt[j + 1];
+                bt[j + 1] = temp;
 
-        if(checkHit(incommingStream[i],queue,occupied)){
-            printFrame(queue,occupied);
-        }
-
-        else if(occupied<frames){
-            queue[occupied++]=incommingStream[i];
-            pagefault++;
-
-            printFrame(queue,occupied);
-        }
-        else{
-            int max=-1;
-            int index;
-            for(int j=0;j<frames;j++){
-                distance[j]=0;
-                for(int k=i-1;k>0;k--){
-                    ++distance[k];
-                    if(queue[j]==incommingStream[k]){
-                        break;
-                    }
-                }
-                if (distance[j] > max)
-                {
-                    max = distance[j];
-                    index = j;
-                }
+                temp = no[j];
+                no[j] = no[j + 1];
+                no[j + 1] = temp;
             }
-            queue[index]=incommingStream[i];
-            printf(queue,occupied);
-            pagefault++;
+
+    printf("\nProcess\t\tAT\tBT\tCT\tTAT\tWT\n");
+    rt[N]=MAX;
+
+    for(time=0;remain!=n;time++){
+        s=n;
+        for(int i=0;i<n;i++)
+            if(at[i]<=time && rt[i]<rt[s] && rt[i]>0){
+                s=i;
+            
+        rt[s]--;
+        if(rt[s]==0){
+            remain++;
+            ct[s]=time+1;
+            tat[s]=ct[s]-at[s];
+            wt[s]=tat[s]-bt[s];
+            avgtat+=tat[s];
+            avgwt+=wt[s];
+            printf("P%d\t\t%d\t%d\t%d\t%d\t%d\n", no[s], at[s], bt[s], ct[s], tat[s], wt[s]);
         }
-        printf("\n");
     }
-    int hit = n - pagefault;
-    printf("Page Fault: %d\n", pagefault);
-    printf("Hit:Miss Ratio: %d:%d", hit, pagefault);
+    avgtat /= n, avgwt /= n;
+    printf("\nAverage TurnAroundTime=%f\nAverage WaitingTime=%f", avgtat, avgwt);
     return 0;
 }
