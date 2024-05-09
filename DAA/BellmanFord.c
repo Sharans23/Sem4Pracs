@@ -28,10 +28,8 @@ void BellmanFord(int graph[][3], int V, int E,
 
         for (int j = 0; j < E; j++)
         {
-            if (dis[graph[j][0]] != INT_MAX && dis[graph[j][0]] + graph[j][2] <
-                                                   dis[graph[j][1]])
-                dis[graph[j][1]] =
-                    dis[graph[j][0]] + graph[j][2];
+            if (dis[graph[j][0]] != INT_MAX && dis[graph[j][0]] + graph[j][2] < dis[graph[j][1]])
+                dis[graph[j][1]] = dis[graph[j][0]] + graph[j][2];
         }
     }
 

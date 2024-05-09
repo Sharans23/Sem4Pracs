@@ -1,68 +1,47 @@
-#include<stdio.h>
-#include<math.h>
-#include<stdlib.h>
-int a[30],count=0;
-int place(int r)
+#include <stdio.h>
+#include <stdlib.h>
+
+int n, x[10];
+
+// k row and j column
+int place(int k, int j)
 {
-    int j;
-    for(j=1;j<r;j++)
+    for (int i = 0; i < k; i++)
     {
-        if(a[j]==a[r]|| abs(a[j]-a[r])== abs(j-r))
-        return 0;
-    }       
-    
+        if (x[i] == j || abs(x[i] - j) == abs(i - k))
+        {
+            return 0;
+        }
+    }
     return 1;
 }
-void print_sol(int n)
-{
-    int i,j;
-    count++;
-    printf("solution %d\n",count);
-    for(i=1;i<=n;i++)
-    {
-        for(j=1;j<=n;j++)
-        {
-            if(a[i]==j)
-            {
-                printf("Q\t");
-            }
-            else
-            printf("*\t");
-        }
-        printf("\n");
-    }
-}
-void queen(int n)
-{
-    int k=1;
-    a[k]=0;
-    while(k!=0)
-    {
-        do{
-            a[k]++;
-        }while(a[k]<=n && !place(k));
 
-        if(a[k]<=n)
+int Nqueen(int k, int n)
+{
+    for (int j = 0; j < n; j++)
+    {
+        if (place(k, j))
         {
-            if(k==n)
+            x[k] = j;
+            if (k + 1 == n)
             {
-                print_sol(n);
+                for (int i = 0; i < n; i++)
+                {
+                    printf("%d", x[i] + 1);
+                }
+                printf("\n");
             }
             else
             {
-                k++;
-                a[k]=0;
+                Nqueen(k + 1, n);
             }
         }
-        else
-        k--;
     }
 }
+
 void main()
 {
-    int n;
-    printf("Enter no of queens");
-    scanf("%d",&n);
-    queen(n);
-    printf("Total Solutions: %d",count);
+    printf("enter size of board");
+    scanf("%d", &n);
+    Nqueen(0, n);
 }

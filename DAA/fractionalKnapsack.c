@@ -11,12 +11,10 @@ void simple_fill()
     int current_weight = W;
     float total_profit = 0;
     int used[10];
-
     for (int i = 0; i < n; i++)
     {
         used[i] = 0;
     }
-
     while (current_weight > 0)
     {
         int maxi = -1;
@@ -27,24 +25,28 @@ void simple_fill()
                 maxi = i;
             }
         }
-
         used[maxi] = 1;
-        current_weight = current_weight - w[maxi];
-        total_profit = total_profit + p[maxi];
-
-        if (current_weight > 0)
+        if (w[maxi] <= current_weight)
         {
-            printf("%d object with weight %d and profit %d added completely into the sack. Space left: %d \n", maxi + 1, w[maxi], p[maxi], current_weight);
+            current_weight = current_weight - w[maxi];
+            total_profit = total_profit + p[maxi];
+            if (current_weight > 0)
+            {
+                printf("%d object with weight %d and profit %d added completely into the sack. Space left: %d \n", maxi + 1, w[maxi], p[maxi], current_weight);
+            }
+            else
+            {
+                printf("%d object with weight %d and profit %d added completely into the sack \n", maxi + 1, w[maxi], p[maxi]);
+            }
         }
         else
         {
-            printf("%d object with weight %d and profit %d added %d percent into the sack \n", maxi + 1, w[maxi], p[maxi], ((int)((1 + (float)current_weight / w[maxi]) * 100)));
-            total_profit = total_profit - p[maxi];
-            total_profit = total_profit + ((float)current_weight / w[maxi]) * p[maxi];
+            printf("%d object with weight %d and profit %d added %d percent into the sack \n", maxi + 1, w[maxi], p[maxi], (int)(((float)current_weight / w[maxi]) * 100));
+            total_profit = total_profit + current_weight * ((float)p[maxi] / w[maxi]);
+            current_weight = 0;
         }
     }
-
-    printf("%f of total profit made", total_profit);
+    printf("Total profit: %.2f", total_profit);
 }
 
 int main()
