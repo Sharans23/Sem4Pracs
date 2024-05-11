@@ -41,7 +41,6 @@ void main()
         if (find(pages[i]))
         {
             hit++;
-            print_frame();
         }
         else
         {

@@ -55,9 +55,7 @@ def worstFit(blockSize, m, processSize, n):
         wstIdx = -1
         for j in range(m): 
             if blockSize[j] >= processSize[i]: 
-                if wstIdx == -1: 
-                    wstIdx = j 
-                elif blockSize[wstIdx] < blockSize[j]: 
+                if wstIdx == -1 or blockSize[wstIdx] < blockSize[j]: 
                     wstIdx = j 
         if wstIdx != -1:
             allocation[i] = wstIdx 
@@ -93,7 +91,6 @@ for i in range (0,m):
     count2=count2+blockSize2[i]
     count3=count3+blockSize3[i]
 processSize = [] 
-print("C151 Sharan Shetty 60004220224")
 for i in range (0,n):
     b=(int(input(f"enter the {i+1} element process size:")))
     processSize.append(b)
