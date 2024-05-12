@@ -1,7 +1,3 @@
-print("Sharan Shetty C151 60004220224 08/02/24")
-print("Aim:- Implementation of restoring division algorithm")
-
-
 # decimal to binary
 def deci_to_bin(n):
     return bin(n).replace("0b", "")

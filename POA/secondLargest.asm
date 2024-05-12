@@ -19,7 +19,7 @@ CODE segment
         UP1:
             mov al,[si]
             mov bl,[si+1]
-            cmp al,bl
+            cmp bl,al
             JC down
             mov dl,[si+1]
             xchg [si],dl
@@ -30,7 +30,16 @@ CODE segment
                 dec cl   
                 jnz UP1
                 dec ch
-                jnz UP2
+                jnz UP2  
+        
+        
+        lea di,string1
+        mov dl,[di+1]
+        xchg [di],dl
+        mov [di+1],dl
+        
+      
+                
 CODE ENDS
 END START
 

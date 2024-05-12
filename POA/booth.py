@@ -1,13 +1,6 @@
-print("Sharan Shety 60004220224 C151")
-print("Booth'ss Algorithm Exp1 01/02/2024")
-
 def conversion(a): #returns a binary string of a number which has bits equal to count
-    q=""
-    current_n = len(a)
-    temp = count- current_n
-    if (current_n != count):
-        q = "0"*temp + a
-    return q
+    return a.zfill(count)
+
 def add(x, y):
     max_len = max(len(x), len(y))
     x = x.zfill(max_len)
@@ -27,20 +20,18 @@ def add(x, y):
 def twoc(a):
     l = list(a)
     for i in range(len(l)):
-         if l[i] == "1" :
-             l[i] = "0"
-         else: l[i] ="1"
+        if l[i] == "1" :
+            l[i] = "0"
+        else: l[i] ="1"
     b = "0"*(len(l)-1) + "1" 
     return add("".join(l),b)
-def right_shift(ac,q,q1): 
-    a = ac[0]
-    for i in range(1,len(ac)):
-        a+=ac[i-1]
-    b = ac[-1]
-    for j in range(1,len(q)):
-        b+=q[j-1]
+
+def right_shift(ac, q, q1):
+    a = ac[0] + ac[:-1]
+    b = ac[-1] + q[:-1]
     c = q[-1]
-    return a,b,c
+    return a, b, c
+
 #Taking input and assigning values and converting to binary and assigning negative value
 x = int(input("enter number one"))
 y = int(input("enter number two")) #taking x and y decimal numbers as input for x * y
