@@ -1,6 +1,6 @@
 def firstFit(blockSize,blocks,processSize,processes): 
     count=0
-    allocation = [-1] * n 
+    allocation = [-1] * processes
     for i in range(processes): 
         for j in range(blocks): 
             # check if blocksize greater than process size

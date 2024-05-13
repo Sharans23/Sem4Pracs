@@ -16,7 +16,7 @@ CODE SEGMENT
         
         CLC
         
-     sum_loop:
+    sum_loop:
         MOV BX, [SI]
         ADC AX, BX
         
