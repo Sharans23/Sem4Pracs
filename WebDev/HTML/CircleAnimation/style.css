@@ -1,0 +1,26 @@
+.box{
+    background-color: black;
+    width: 100px;
+    height: 100px;
+    margin: 100px;
+    animation: roll 3s infinite linear;
+}
+
+
+@keyframes roll{
+    0%{
+        transform: translate(0,0) rotate(0deg);
+    }
+    25%{
+        transform: translate(100px,0) rotate(90deg);
+    }
+    50%{
+        transform: translate(100px,100px) rotate(180deg);
+    }
+    75%{
+        transform: translate(0,100px) rotate(270deg);
+    }
+    100%{
+        transform: translate(0,0) rotate(360deg);
+    }
+}
