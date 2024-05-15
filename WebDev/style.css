@@ -1,0 +1,37 @@
+/* Accordion Styles */
+.accordion-item {
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+.accordion-header {
+  background-color: #f1f1f1;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.accordion-content {
+  padding: 10px;
+  display: none;
+}
+
+/* Toolkit Styles */
+.toolkit {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.toolkit-item {
+  width: 200px;
+  margin: 10px;
+  text-align: center;
+}
+
+.toolkit-item img {
+  width: 100px;
+  height: 100px;
+}

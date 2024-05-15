@@ -24,15 +24,15 @@ CODE SEGMENT
         DEC CX
         JNZ sum_loop 
         
-        MOV addition, AH
+    MOV addition, AH
         
-        MOV CX, len
+    MOV CX, len
         
         
-        DIV CX   
+    DIV CX   
         
-        MOV avg, AH  
+    MOV avg, AH  
       
-        HLT
+    HLT
     END start
 CODE ENDS

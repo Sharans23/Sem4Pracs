@@ -1,107 +1,55 @@
-def conversion(a):
-    return a.zfill(count)
+def dec_to_bin(n):
+    return bin(n).replace('0b','')
 
-def add(x,y):
-    max_len=max(len(x),len(y))
-    x=x.zfill(max_len)
-    y=y.zfill(max_len)
-    carry=0
-    result=''
-    for i in range(max_len-1,-1,-1):
-        r=carry
-        r+=1 if x[i]=='1' else 0
-        r+=1 if y[i]=='1' else 0
-        result=('1' if r%2==1 else '0') + result
-        carry=0 if r<2 else 1
-    return result
+def right_shift(C,AC,Q):
+    C=AC[0]
+    AC=AC[1:]+Q[0]
+    Q=Q[1:]+'_'
+    return C,AC,Q
 
-def twoc(a):
-    l=list(a)
-    for i in range(len(l)):
-        if l[i]=='0':
-            l[i]='1'
+def operation(C,AC,M):
+    temp=C+AC
+    temp=bin(int(temp,2)+int(M,2)).replace('0b','')
+    if len(temp)>len(M):
+        temp=temp[1:]
+    return temp[0],temp[1:]
+
+def restoring():
+    Q=dec_to_bin(int(input("enter first number Q")))
+    M=dec_to_bin(int(input("enter second number M")))
+
+    AC='0'*(len(Q)+1)
+    C='0'
+    Q='0'*(len(M)-len(Q))+Q
+    M='0'+M
+
+    M_neg=bin(int(''.join(['1' if bit =='0' else '0' for bit in M]),2)+1)[2:]
+
+    print("inital C vale :",C)
+    print("inital AC vale :",AC)
+    print("inital Q vale :",Q)
+    print("inital M vale :",M)
+    print("two's comp of M",M_neg)
+    print("\n\tC\tAC\tQ\tOperation")
+    print("\t"+C+"\t"+AC+"\t"+Q+"\tinitial")
+
+    for _ in range(len(Q)):
+        C,AC,Q=right_shift(C,AC,Q)
+        print("\t"+C+"\t"+AC+"\t"+Q+"\t left shift")
+        C,AC=operation(C,AC,M_neg)
+        print("\t"+C+"\t"+AC+"\t"+Q+"\t AC-M")
+
+        if C=='1':
+            Q=Q[:-1]+'0'
+            C,AC=operation(C,AC,M)
+            print("\t"+C+"\t"+AC+"\t"+Q+"\t AC+M")
+
         else:
-            l[i]='0'    
-    b='0'*(len(l)-1)+'1'
-    return add("".join(l),b)
+            Q=Q[:-1]+'1'
 
-def right_shift(ac,q,q1):
-    a = ac[0] + ac[:-1]
-    b=ac[-1]+ q[:-1]
-    c=q[-1]
-    return a,b,c
+    print("\nfinal value")
+    print("\t" + C + "\t" + AC + "\t" + Q)
+    print("Remainder=C,AC",int(C+AC,2))
+    print("Quotient:",int(Q,2))
 
-x=int(input("enter first number"))
-y=int(input("enter second number"))
-
-
-a=bin(x).replace("0b","")
-b=bin(y).replace("0b","")
-
-negative_a=0
-negative_b=0
-
-if(a[0]=='-'):
-    a=a.replace("-","")
-    negative_a=1
-if(b[0]=='-'):
-    b=b.replace("-","")
-    negative_b=1
-
-if (len(a)>len(b)):
-    count=len(a)+1
-else:
-    count=len(b)+1
-count1=count
-
-# Multiplicant
-firstP=conversion(a)
-# multiplier
-secondP=conversion(b)
-firstN=twoc(firstP)
-secondN=twoc(secondP)
-
-if negative_a==0:
-    M=firstP
-    M2=firstN
-else:
-    M=firstN
-    M2=firstP
-if negative_b==0:
-    Q=secondP
-else:
-    Q=secondN
-
-AC=conversion("0")
-Q1="0"
-print("Booths algorithm:")
-print("Count      AC        Q       Q1         Operation")
-print(str(count)+"     "+AC+"      "+Q+"      "+Q1+"      initial")
-print("\n")
-
-while(count>0):
-    compare=Q[-1]+Q1
-    if compare[0]==compare[-1]:
-        AC,Q,Q1=right_shift(AC,Q,Q1)
-        Op="right Shift"
-    elif compare=="10":
-        AC=add(AC,M2)
-        AC,Q,Q1=right_shift(AC,Q,Q1)
-        Op="AC=AC-M and right shift"
-    elif compare=="01":
-        AC=add(AC,M)
-        AC,Q,Q1=right_shift(AC,Q,Q1)
-        Op="AC=AC+M and right shift"
-
-    print(str(count)+"     "+AC+"      "+Q+"      "+Q1+"      "+Op)
-    print("\n")
-    count=count-1               
-answer=AC+Q
-if negative_a==negative_b:
-    ans_d=int(answer,2)
-else:
-    ans_d="-"+str(int(twoc(answer),2)) 
-
-print(answer)
-print(ans_d)
-
+restoring()                            
