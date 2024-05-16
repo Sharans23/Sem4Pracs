@@ -1,5 +1,5 @@
 #include <stdio.h>
-int nf, np, j, i, fifo_pointer = 0, hit = 0, fault = 0;
+int nf, np, j, i, hit = 0, fault = 0;
 int frames[100], pages[100];
 int find(int x)
 {

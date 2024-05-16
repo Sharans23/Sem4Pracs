@@ -1,4 +1,4 @@
-fact macro f
+facto macro f
     up:
     mul f
     dec f
@@ -6,19 +6,18 @@ fact macro f
 endm
 
 data segment
-    num dw 05h
-    result dw ?
+    a db 5
+    fact db ?
 data ends
 
 code segment    
     Start:
     mov ax,data
     mov ds,ax
-    mov cx,num
+    mov cl,a
     
     mov ax,0001h
-    fact num
-    mov result,ax
+    facto a
+    mov fact,al
 code ends
 end start
-
